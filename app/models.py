@@ -16,7 +16,7 @@ class User(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     study_sessions = db.relationship("StudySession", backref="user", lazy=True)
-
+    chapters = db.relationship("Chapter", backref="user", lazy=True)
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
@@ -32,8 +32,35 @@ class Subject(db.Model):
     name = db.Column(db.String(120), nullable=False)
 
     study_sessions = db.relationship("StudySession", backref="subject", lazy=True)
+    chapters = db.relationship("Chapter", backref="subject", lazy=True)
 
+class Chapter(db.Model):
+    """Tracks syllabus chapters, AS and SA progress."""
 
+    id = db.Column(db.Integer, primary_key=True)
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id"),
+        nullable=False
+    )
+
+    subject_id = db.Column(
+        db.Integer,
+        db.ForeignKey("subject.id"),
+        nullable=False
+    )
+
+    name = db.Column(
+        db.String(200),
+        nullable=False
+    )
+
+    completed = db.Column(
+        db.Boolean,
+        default=False,
+        nullable=False
+    )
 class StudySession(db.Model):
     """One study log entry: subject, hours, and optional notes."""
 
