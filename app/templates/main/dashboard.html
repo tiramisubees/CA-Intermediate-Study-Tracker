@@ -77,6 +77,51 @@
                 <p class="empty-state">No study sessions yet. Log your first session to see progress here.</p>
             {% endif %}
         </section>
+        <section class="panel">
+            <h2>Chapter Progress</h2>
+        
+            <ul class="subject-list">
+        
+                {% for item in subject_progress %}
+        
+                <li class="subject-item">
+                    <div>
+
+                        <a href="{{ url_for('main.subject_detail',
+                        subject_id=item.subject.id) }}"
+                        class="subject-name">
+
+                            {{ item.subject.name }}  
+                        </a>
+                        
+                        <br>
+        
+                        <small>
+                            {{ item.completed }} / {{ item.total }}
+                            Chapters Completed
+                        </small>
+                    </div>
+        
+                    <div class="progress-container">
+
+                        <div class="progress-bar-bg">
+                            <div
+                                class="progress-bar-fill"
+                                style="width: {{ item.percentage }}%;"
+                            ></div>
+                        </div>
+                    
+                        <div class="progress-text">
+                            {{ item.percentage }}%
+                        </div>
+                    
+                    </div>
+                </li>
+        
+                {% endfor %}
+        
+            </ul>
+        </section>
     </div>
 
     <section class="panel panel-wide">

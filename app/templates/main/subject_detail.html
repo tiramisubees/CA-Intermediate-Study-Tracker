@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ subject.name }}
+{% endblock %}
+
+{% block content %}
+
+<section class="panel">
+
+    <h1>{{ subject.name }}</h1>
+
+<div class="subject-stats">
+
+    <div class="stat-card">
+        <span class="stat-label">Completed</span>
+        <span class="stat-value">{{ completed_chapters }}</span>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">Remaining</span>
+        <span class="stat-value">
+            {{ total_chapters - completed_chapters }}
+        </span>
+    </div>
+
+    <div class="stat-card">
+        <span class="stat-label">Progress</span>
+        <span class="stat-value">{{ percentage }}%</span>
+    </div>
+
+</div>
+
+<div class="subject-progress">
+
+    <div class="subject-progress-header">
+        <span>Completion Progress</span>
+        <span>{{ percentage }}%</span>
+    </div>
+
+    <div class="subject-progress-bar">
+        <div
+            class="subject-progress-fill"
+            style="width: {{ percentage }}%;"
+        ></div>
+    </div>
+
+</div>
+    <ul class="chapter-list">
+
+        {% for chapter in chapters %}
+
+        <li class="chapter-item">
+
+            <a href="{{ url_for('main.toggle_chapter',
+            chapter_id=chapter.id) }}">
+        
+                {% if chapter.completed %}
+                    ✅
+                {% else %}
+                    ⬜
+                {% endif %}
+        
+                {{ chapter.name }}
+        
+            </a>
+        
+        </li>
+
+        {% endfor %}
+
+    </ul>
+
+</section>
+
+{% endblock %}

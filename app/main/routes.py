@@ -1,12 +1,12 @@
 from collections import defaultdict
 
-from flask import flash, redirect, render_template, url_for
+from flask import flash, redirect, render_template, url_for, abort
 from flask_login import current_user, login_required
 
 from app.extensions import db
 from app.main import main_bp
 from app.main.forms import StudySessionForm
-from app.models import StudySession, Subject
+from app.models import StudySession, Subject, Chapter
 
 
 @main_bp.route("/")
@@ -51,8 +51,38 @@ def dashboard():
     )
 
     subject_hours = defaultdict(float)
+
     for session in StudySession.query.filter_by(user_id=current_user.id).all():
         subject_hours[session.subject.name] += session.hours
+
+    subject_progress = []
+
+    for subject in subjects:
+        total_chapters = Chapter.query.filter_by(
+            user_id=current_user.id,
+            subject_id=subject.id
+        ).count()
+
+        completed_chapters = Chapter.query.filter_by(
+            user_id=current_user.id,
+            subject_id=subject.id,
+            completed=True
+        ).count()
+
+        percentage = 0
+
+        if total_chapters:
+            percentage = round(
+                (completed_chapters / total_chapters) * 100,
+                1
+            )
+
+        subject_progress.append({
+            "subject": subject,
+            "total": total_chapters,
+            "completed": completed_chapters,
+            "percentage": percentage
+        })
 
     return render_template(
         "main/dashboard.html",
@@ -61,4 +91,59 @@ def dashboard():
         total_hours=round(total_hours, 1),
         subject_hours=dict(subject_hours),
         subjects=subjects,
+        subject_progress=subject_progress,
     )
+@main_bp.route("/subject/<int:subject_id>")
+@login_required
+def subject_detail(subject_id):
+
+    subject = Subject.query.get_or_404(subject_id)
+
+    chapters = Chapter.query.filter_by(
+    user_id=current_user.id,
+    subject_id=subject.id
+    ).all()
+
+    total_chapters = len(chapters)
+
+    completed_chapters = sum(
+        1 for chapter in chapters
+        if chapter.completed
+    )
+
+    percentage = 0
+
+    if total_chapters:
+        percentage = round(
+            (completed_chapters / total_chapters) * 100,
+            1
+        )
+
+    return render_template(
+        "main/subject_detail.html",
+        subject=subject,
+        chapters=chapters,
+        total_chapters=total_chapters,
+        completed_chapters=completed_chapters,
+        percentage=percentage
+    )
+
+@main_bp.route("/chapter/<int:chapter_id>/toggle")
+@login_required
+def toggle_chapter(chapter_id):
+
+    chapter = Chapter.query.get_or_404(chapter_id)
+
+    if chapter.user_id != current_user.id:
+        abort(403)
+
+    chapter.completed = not chapter.completed
+
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "main.subject_detail",
+            subject_id=chapter.subject_id
+        )
+    ) 
