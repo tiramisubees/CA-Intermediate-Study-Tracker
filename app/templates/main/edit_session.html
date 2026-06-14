@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Study Session{% endblock %}
+
+{% block content %}
+<section class="panel panel-wide">
+
+    <h1>Edit Study Session</h1>
+
+    <form method="POST" class="form" novalidate>
+
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.subject_id.label(class="form-label") }}
+            {{ form.subject_id(class="form-input") }}
+        </div>
+
+        <div class="form-row">
+
+            <div class="form-group">
+                {{ form.hours.label(class="form-label") }}
+                {{ form.hours(class="form-input") }}
+            </div>
+
+            <div class="form-group">
+                {{ form.studied_on.label(class="form-label") }}
+                {{ form.studied_on(class="form-input") }}
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            {{ form.notes.label(class="form-label") }}
+            {{ form.notes(class="form-input form-textarea") }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Save Changes
+        </button>
+
+    </form>
+
+</section>
+{% endblock %}

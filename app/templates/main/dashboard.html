@@ -9,9 +9,39 @@
             <h1>Your Study Dashboard</h1>
             <p>Track hours across all CA Intermediate subjects.</p>
         </div>
-        <div class="stat-card stat-highlight">
-            <span class="stat-label">Total Hours</span>
-            <span class="stat-value">{{ total_hours }}h</span>
+        <div class="dashboard-stats">
+
+            <div class="stat-card stat-highlight">
+                <span class="stat-label">Total Hours</span>
+                <span class="stat-value">{{ total_hours }}h</span>
+            </div>
+        
+            <div class="stat-card">
+                <span class="stat-label">Total Sessions</span>
+                <span class="stat-value">{{ total_sessions }}</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Avg Hours / Session</span>
+                <span class="stat-value">{{ average_hours }}h</span>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-label">Exam Countdown</span>
+            
+                <span class="stat-value">
+                    {{ days_left }}
+                </span>
+            
+                <span class="stat-label">
+                    Days Until Exams
+                </span>
+            </div>
+        
+            <div class="stat-card">
+                <span class="stat-label">Study Streak</span>
+                <span class="stat-value">{{ streak }} Days</span>
+            </div>
         </div>
     </header>
 
@@ -84,45 +114,50 @@
         
                 {% for item in subject_progress %}
         
-                <li class="subject-item">
-                    <div>
+                <li class="progress-card">
 
-                        <a href="{{ url_for('main.subject_detail',
+                    <a
+                        href="{{ url_for('main.subject_detail',
                         subject_id=item.subject.id) }}"
-                        class="subject-name">
-
-                            {{ item.subject.name }}  
-                        </a>
-                        
-                        <br>
-        
-                        <small>
-                            {{ item.completed }} / {{ item.total }}
-                            Chapters Completed
-                        </small>
-                    </div>
-        
-                    <div class="progress-container">
-
+                        class="subject-name"
+                    >
+                        {{ item.subject.name }}
+                    </a>
+                
+                    <div class="progress-row">
+                
                         <div class="progress-bar-bg">
                             <div
                                 class="progress-bar-fill"
                                 style="width: {{ item.percentage }}%;"
                             ></div>
                         </div>
-                    
-                        <div class="progress-text">
+                
+                        <span class="progress-text">
                             {{ item.percentage }}%
-                        </div>
-                    
+                        </span>
+                
                     </div>
+                
+                    <small class="chapter-count">
+                        {{ item.completed }} / {{ item.total }}
+                        Chapters Completed
+                    </small>
+                
                 </li>
-        
+                
                 {% endfor %}
         
             </ul>
         </section>
     </div>
+
+    <section class="panel panel-wide">
+        <h2>Study Trend</h2>
+    
+        <canvas id="studyTrendChart"></canvas>
+    </section>
+
 
     <section class="panel panel-wide">
         <h2>Recent Study Sessions</h2>
@@ -135,6 +170,7 @@
                             <th>Subject</th>
                             <th>Hours</th>
                             <th>Notes</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -144,6 +180,34 @@
                             <td>{{ session.subject.name }}</td>
                             <td>{{ session.hours }}h</td>
                             <td>{{ session.notes or "—" }}</td>
+                            <td>
+
+                                <a
+                                    href="{{ url_for('main.edit_session',
+                                    session_id=session.id) }}"
+                                    class="btn-link"
+                                >
+                                    Edit
+                                </a>
+                            
+                                |
+                            
+                                <form
+                                    method="POST"
+                                    action="{{ url_for('main.delete_session',
+                                    session_id=session.id) }}"
+                                    style="display:inline;"
+                                >
+                                    <button
+                                    type="submit"
+                                    class="btn-link btn-delete"
+                                    onclick="return confirm('Delete this study session?')"
+                                >
+                                    Delete
+                                </button>
+                                </form>
+                            
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -154,4 +218,42 @@
         {% endif %}
     </section>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const studyLabels = {{ daily_hours.keys() | list | tojson }};
+const studyData = {{ daily_hours.values() | list | tojson }};
+</script>
+
+
+<script>
+    const ctx = document.getElementById('studyTrendChart');
+    
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: studyLabels,
+            datasets: [{
+                label: 'Hours Studied',
+                data: studyData,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    </script>
+
+
 {% endblock %}

@@ -13,13 +13,17 @@
     <div class="page">
         {% if current_user.is_authenticated %}
         <header class="topbar">
-            <div class="brand">
+                <a href="{{ url_for('main.dashboard') }}" class="brand">
                 <span class="brand-icon">📚</span>
                 <span class="brand-text">CA Intermediate Study Tracker</span>
-            </div>
+            </a>
             <nav class="topbar-nav">
+                <a href="{{ url_for('main.dashboard') }}" class="nav-link">
+                    Dashboard
+                </a>
                 <span class="user-greeting">Hi, {{ current_user.username }}</span>
                 <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost">Log Out</a>
+                
             </nav>
         </header>
         {% endif %}

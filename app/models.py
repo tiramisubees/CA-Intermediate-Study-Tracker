@@ -13,6 +13,12 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
+    attempt = db.Column(
+        db.String(10),
+        nullable=False,
+        default="SEP26"
+    )
+    
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     study_sessions = db.relationship("StudySession", backref="user", lazy=True)

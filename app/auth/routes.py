@@ -39,6 +39,7 @@ def register():
         user = User(
             username=form.username.data,
             email=form.email.data,
+            attempt=form.attempt.data,
         )
         user.set_password(form.password.data)
 

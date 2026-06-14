@@ -30,6 +30,15 @@
         </div>
 
         <div class="form-group">
+            {{ form.attempt.label(class="form-label") }}
+            {{ form.attempt(class="form-input") }}
+        
+            {% for error in form.attempt.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
             {{ form.password.label(class="form-label") }}
             {{ form.password(class="form-input", placeholder="At least 6 characters") }}
             {% for error in form.password.errors %}
