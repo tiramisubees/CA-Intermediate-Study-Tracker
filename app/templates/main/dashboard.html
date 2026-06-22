@@ -70,6 +70,11 @@
                     style="width: {{ goal_percentage }}%;"
                 ></div>
             </div>
+
+            <p class="goal-message">
+                {{ goal_message }}
+            </p>
+
         
         </div>
     </header>
@@ -137,50 +142,107 @@
                 <p class="empty-state">No study sessions yet. Log your first session to see progress here.</p>
             {% endif %}
         </section>
+        </div>
+
         <section class="panel">
             <h2>Chapter Progress</h2>
-        
-            <ul class="subject-list">
-        
-                {% for item in subject_progress %}
-        
-                <li class="progress-card">
 
-                    <a
-                        href="{{ url_for('main.subject_detail',
-                        subject_id=item.subject.id) }}"
-                        class="subject-name"
-                    >
-                        {{ item.subject.name }}
-                    </a>
-                
-                    <div class="progress-row">
-                
-                        <div class="progress-bar-bg">
-                            <div
-                                class="progress-bar-fill"
-                                style="width: {{ item.percentage }}%;"
-                            ></div>
-                        </div>
-                
-                        <span class="progress-text">
-                            {{ item.percentage }}%
-                        </span>
-                
-                    </div>
-                
-                    <small class="chapter-count">
-                        {{ item.completed }} / {{ item.total }}
-                        Chapters Completed
-                    </small>
-                
-                </li>
-                
-                {% endfor %}
-        
-            </ul>
-        </section>
-    </div>
+            <div class="chapter-groups">
+
+                <div class="chapter-group">
+
+                    <h3>Group 1</h3>
+
+                    <ul class="subject-list">
+
+                        {% for item in group1_progress %}
+
+                        <li class="progress-card">
+
+                            <a href="{{ url_for('main.subject_detail',
+                            subject_id=item.subject.id) }}"
+                            class="subject-name">
+
+                                {{ item.subject.name }}
+
+                            </a>
+
+                            <div class="progress-row">
+
+                                <div class="progress-bar-bg">
+                                    <div
+                                        class="progress-bar-fill"
+                                        style="width: {{ item.percentage }}%;"
+                                    ></div>
+                                </div>
+
+                                <span class="progress-text">
+                                    {{ item.percentage }}%
+                                </span>
+
+                            </div>
+
+                            <small class="chapter-count">
+                                {{ item.completed }} / {{ item.total }}
+                                Chapters Completed
+                            </small>
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+                <div class="chapter-group">
+
+                    <h3>Group 2</h3>
+
+                    <ul class="subject-list">
+
+                        {% for item in group2_progress %}
+
+                        <li class="progress-card">
+
+                            <a href="{{ url_for('main.subject_detail',
+                            subject_id=item.subject.id) }}"
+                            class="subject-name">
+
+                                {{ item.subject.name }}
+
+                            </a>
+
+                            <div class="progress-row">
+
+                                <div class="progress-bar-bg">
+                                    <div
+                                        class="progress-bar-fill"
+                                        style="width: {{ item.percentage }}%;"
+                                    ></div>
+                                </div>
+
+                                <span class="progress-text">
+                                    {{ item.percentage }}%
+                                </span>
+
+                            </div>
+
+                            <small class="chapter-count">
+                                {{ item.completed }} / {{ item.total }}
+                                Chapters Completed
+                            </small>
+
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+    </section>
 
     <section class="panel panel-wide">
         <h2>Study Trend</h2>

@@ -165,10 +165,56 @@ def dashboard():
                 100
             )
 
-        remaining_hours = max(
-            round(daily_goal - today_hours, 1),
-            0
-        )
+        remaining_hours = max(daily_goal - today_hours, 0)
+
+        if today_hours == 0:
+            goal_message = "🕒 No study sessions logged today."
+
+        elif today_hours >= daily_goal:
+            goal_message = "🎯 Goal achieved! Great job today."
+
+        else:
+           goal_message = f"📚 {remaining_hours:.1f} hours remaining to reach today's goal."
+
+        if today_hours == 0:
+            goal_status = "empty"
+
+        elif today_hours >= daily_goal:
+            goal_status = "achieved"
+
+        else:
+            goal_status = "progress"
+
+    group1_progress = [
+    item for item in subject_progress
+    if item["subject"].group_name == "Group 1"
+    ]
+
+    group1_order = [
+    "Advanced Accounting",
+    "Corporate and Other Laws",
+    "Taxation"
+    ]
+
+    group1_progress.sort(
+        key=lambda item: group1_order.index(item["subject"].name)
+    )
+
+    group2_progress = [
+        item for item in subject_progress
+        if item["subject"].group_name == "Group 2"
+    ]
+
+    group2_order = [
+    "Cost and Management Accounting",
+    "Auditing and Ethics",
+    "Financial Management and Strategic Management"
+    ]
+
+    group2_progress.sort(
+        key=lambda item: group2_order.index(item["subject"].name)
+    )
+
 
     return render_template(
         "main/dashboard.html",
@@ -186,6 +232,10 @@ def dashboard():
         daily_goal=daily_goal,
         goal_percentage=goal_percentage,
         remaining_hours=remaining_hours,
+        goal_message=goal_message,
+        today_hours=today_hours,
+        group1_progress=group1_progress,
+        group2_progress=group2_progress,
     )
 
 @main_bp.route("/subject/<int:subject_id>")

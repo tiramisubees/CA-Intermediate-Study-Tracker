@@ -46,11 +46,21 @@
     </div>
 
 </div>
+
+<div class="chapter-search">
+    <input
+        type="text"
+        id="chapterSearch"
+        placeholder="Search chapters..."
+    >
+</div>
+
     <ul class="chapter-list">
 
         {% for chapter in chapters %}
 
-        <li class="chapter-item">
+        <li class="chapter-item"
+             data-name="{{ chapter.name|lower }}">
 
             <a href="{{ url_for('main.toggle_chapter',
             chapter_id=chapter.id) }}">
@@ -72,5 +82,35 @@
     </ul>
 
 </section>
+
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+    
+        const searchInput = document.getElementById("chapterSearch");
+    
+        const chapters = document.querySelectorAll(".chapter-item");
+    
+        searchInput.addEventListener("input", function () {
+    
+            const searchTerm = this.value.toLowerCase();
+    
+            chapters.forEach(chapter => {
+    
+                const chapterName = chapter.dataset.name;
+    
+                if (chapterName.includes(searchTerm)) {
+                    chapter.style.display = "";
+                } else {
+                    chapter.style.display = "none";
+                }
+    
+            });
+    
+        });
+    
+    });
+    
+    </script>
 
 {% endblock %}

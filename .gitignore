@@ -1,7 +1,6 @@
-__pycache__/
-*.py[cod]
-*.db
-.env
-.venv/
 venv/
+__pycache__/
+*.pyc
 instance/
+.env
+study_tracker.db
