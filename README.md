@@ -2,6 +2,9 @@
 
 A Flask-based web application designed to help CA Intermediate students track study progress, monitor chapter completion, log study hours, and stay consistent with daily goals.
 
+Live Demo:
+https://ca-intermediate-study-tracker.onrender.com
+
 ## Features
 
 - User Registration & Login
