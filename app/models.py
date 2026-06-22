@@ -13,11 +13,10 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(256), nullable=False)
-    attempt = db.Column(
-        db.String(10),
-        nullable=False,
-        default="SEP26"
-    )
+    attempt = db.Column(db.String(10), nullable=False, default="SEP26")
+    theme = db.Column(db.String(10), default="light", nullable=False)
+    exam_attempt = db.Column(db.String(20), default="May")
+    daily_goal = db.Column(db.Float, default=4.0)
     
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 

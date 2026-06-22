@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Settings — CA Study Tracker{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+
+    <div class="card">
+        <h2>Theme Settings</h2>
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label>
+                    <input
+                        type="radio"
+                        name="theme"
+                        value="light"
+                        {% if current_user.theme == "light" %}checked{% endif %}
+                    >
+                    Light Mode
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <input
+                        type="radio"
+                        name="theme"
+                        value="dark"
+                        {% if current_user.theme == "dark" %}checked{% endif %}
+                    >
+                    Dark Mode
+                </label>
+            </div>
+
+            <hr>
+
+            <h2>Study Preferences</h2>
+
+            <div class="form-group">
+                <label for="exam_attempt">
+                    Exam Attempt
+                </label>
+
+                <select
+                    id="exam_attempt"
+                    name="exam_attempt"
+                >
+                    <option
+                        value="Jan"
+                        {% if current_user.exam_attempt == "Jan" %}selected{% endif %}
+                    >
+                        Jan
+                    </option>
+
+                    <option
+                        value="May"
+                        {% if current_user.exam_attempt == "May" %}selected{% endif %}
+                    >
+                        May
+                    </option>
+
+                    <option
+                        value="Sep"
+                        {% if current_user.exam_attempt == "Sep" %}selected{% endif %}
+                    >
+                        Sep
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="daily_goal">
+                    Daily Study Goal (Hours)
+                </label>
+
+                <input
+                    type="number"
+                    id="daily_goal"
+                    name="daily_goal"
+                    min="0.5"
+                    step="0.5"
+                    value="{{ current_user.daily_goal }}"
+                    required
+                >
+
+            </div>
+            <button type="submit" class="btn-primary">
+                Save Settings
+            </button>
+
+        </form>
+    </div>
+
+</section>
+{% endblock %}

@@ -7,7 +7,6 @@
     <header class="dashboard-header">
         <div>
             <h1>Your Study Dashboard</h1>
-            <p>Track hours across all CA Intermediate subjects.</p>
         </div>
         <div class="dashboard-stats">
 
@@ -37,13 +36,44 @@
                     Days Until Exams
                 </span>
             </div>
+            
+                <div class="stat-card">
+                    <span class="stat-label">Study Streak</span>
+                    <span class="stat-value">{{ streak }} Days</span>
+                </div>
+
+        </div>
         
-            <div class="stat-card">
-                <span class="stat-label">Study Streak</span>
-                <span class="stat-value">{{ streak }} Days</span>
+        <div class="goal-card">
+            
+            <div class="goal-top">
+            
+                <div>
+                    <span class="stat-label">
+                        Today's Goal
+                    </span>
+            
+                    <div class="goal-card-percent">
+                        {{ goal_percentage }}%
+                    </div>
+                </div>
+            
+                    <div class="goal-hours">
+                        {{ today_hours }}h / {{ daily_goal }}h
+                </div>
+            
             </div>
+            
+            <div class="goal-mini-bar">
+                <div
+                    class="goal-mini-fill"
+                    style="width: {{ goal_percentage }}%;"
+                ></div>
+            </div>
+        
         </div>
     </header>
+
 
     <div class="dashboard-grid">
         <section class="panel">

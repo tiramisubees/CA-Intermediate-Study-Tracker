@@ -11,6 +11,23 @@
     --info: #2563eb;
     --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     --radius: 14px;
+    --bg-gradient-start: #eef2ff;
+}
+
+.theme-dark {
+    --bg: #111827;
+    --surface: #1f2937;
+    --text: #f9fafb;
+    --text-muted: #cbd5e1;
+    --primary: #8b5cf6;
+    --primary-hover: #a78bfa;
+    --border: #374151;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --info: #60a5fa;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --bg-gradient-start: #0f172a;
+    --surface-hover: #2b3648;
 }
 
 * {
@@ -21,7 +38,7 @@
 
 body {
     font-family: "Inter", system-ui, sans-serif;
-    background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 40%);
+    background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg) 40%);
     color: var(--text);
     min-height: 100vh;
     line-height: 1.5;
@@ -170,7 +187,8 @@ a:hover {
     border: 1px solid var(--border);
     border-radius: 10px;
     font-size: 0.95rem;
-    background: #fff;
+    background: var(--surface);
+    color: var(--text);
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -220,7 +238,7 @@ a:hover {
 }
 
 .btn-ghost:hover {
-    background: #f8fafc;
+    background: var(--surface-hover);
     text-decoration: none;
 }
 
@@ -255,9 +273,9 @@ a:hover {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1rem 1.25rem;
+    padding: 0.75rem 1rem;
     box-shadow: var(--shadow);
-    min-width: 140px;
+    min-width: 130px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -316,7 +334,7 @@ a:hover {
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 0.9rem;
-    background: #f8fafc;
+    background: var(--surface);
     border-radius: 10px;
     border: 1px solid var(--border);
 }
@@ -405,7 +423,7 @@ a:hover {
 .progress-bar-bg {
     width: 100%;
     height: 12px;
-    background-color: #e5e7eb;
+    background-color: var(--border);
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 4px;
@@ -413,7 +431,7 @@ a:hover {
 
 .progress-bar-fill {
     height: 100%;
-    background-color: #2563eb;
+    background: linear-gradient(90deg, var(--primary), #7c3aed);
     border-radius: 999px;
     transition: all 0.3s ease;
 }
@@ -423,7 +441,7 @@ a:hover {
     font-size: 0.9rem;
     font-weight: 700;
     margin-top: 6px;
-    color: #1e293b;
+    color: var(--text);
 }
 
 .subject-stats {
@@ -440,8 +458,8 @@ a:hover {
 }
 
 .chapter-item {
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 0.9rem 1rem;
     margin-bottom: 0.75rem;
@@ -449,7 +467,7 @@ a:hover {
 }
 
 .chapter-item:hover {
-    transform: translateY(-2px);
+    background: var(--surface-hover);
 }
 
 .subject-progress {
@@ -465,25 +483,16 @@ a:hover {
 
 .subject-progress-bar {
     height: 14px;
-    background: #e2e8f0;
+    background: var(--border);
     border-radius: 999px;
     overflow: hidden;
 }
 
 .subject-progress-fill {
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        #4f46e5,
-        #7c3aed
-    );
+    background: linear-gradient(90deg, var(--primary), #7c3aed);
     border-radius: 999px;
     transition: width 0.4s ease;
-}
-
-.dashboard-stats {
-    display: flex;
-    gap: 1rem;
 }
 
 .btn-link {
@@ -513,12 +522,12 @@ a:hover {
 
 .nav-link {
     text-decoration: none;
-    color: #475569;
+    color: var(--text-muted);
     font-weight: 600;
 }
 
 .nav-link:hover {
-    color: #2563eb;
+    color: var(--info);
 }
 
 @media (max-width: 768px) {
@@ -542,8 +551,8 @@ a:hover {
 }
 
 .progress-card {
-    background: #f8fafc;
-    border: 1px solid #e5e7eb;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 1rem;
     margin-bottom: 0.75rem;
@@ -567,5 +576,68 @@ a:hover {
 }
 
 .chapter-count {
-    color: #64748b;
+    color: var(--text-muted);
+}
+
+.goal-card {
+    margin-top: 1rem;
+
+    width: 100%;
+
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    padding: 1rem 1.25rem;
+
+    box-shadow: var(--shadow);
+}
+
+.goal-card-percent {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.goal-mini-bar {
+    width: 100%;
+    height: 10px;
+
+    margin-top: 0.75rem;
+
+    background: var(--border);
+
+    border-radius: 999px;
+
+    overflow: hidden;
+}
+
+.goal-mini-fill {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        #6d5dfc,
+        #8b5cf6
+    );
+}
+
+.goal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.goal-hours {
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.stats-second-row {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+}
+
+.stats-second-row .stat-card {
+    width: 160px;
+    flex-shrink: 0;
 }

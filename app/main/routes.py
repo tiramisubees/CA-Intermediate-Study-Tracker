@@ -1,7 +1,7 @@
 from collections import defaultdict
 from datetime import date, timedelta
 
-from flask import flash, redirect, render_template, url_for, abort
+from flask import flash, redirect, render_template, url_for, abort, request
 from flask_login import current_user, login_required
 
 from app.extensions import db
@@ -60,7 +60,7 @@ def dashboard():
         current_day -= timedelta(days=1)
 
     exam_dates = EXAM_SCHEDULES.get(
-    current_user.attempt,
+    current_user.exam_attempt,
     {}
 )
 
@@ -143,6 +143,33 @@ def dashboard():
             "percentage": percentage
         })
 
+        today_hours = (
+            db.session.query(
+                db.func.sum(StudySession.hours)
+            )
+            .filter(
+                StudySession.user_id == current_user.id,
+                StudySession.studied_on == date.today()
+            )
+            .scalar()
+            or 0
+        )
+
+        daily_goal = current_user.daily_goal
+
+        goal_percentage = 0
+
+        if daily_goal > 0:
+            goal_percentage = min(
+                round((today_hours / daily_goal) * 100, 1),
+                100
+            )
+
+        remaining_hours = max(
+            round(daily_goal - today_hours, 1),
+            0
+        )
+
     return render_template(
         "main/dashboard.html",
         form=form,
@@ -156,6 +183,9 @@ def dashboard():
         streak=streak,
         daily_hours=dict(daily_hours),
         days_left=days_left,
+        daily_goal=daily_goal,
+        goal_percentage=goal_percentage,
+        remaining_hours=remaining_hours,
     )
 
 @main_bp.route("/subject/<int:subject_id>")
@@ -273,3 +303,32 @@ def delete_session(session_id):
     )
 
     return redirect(url_for("main.dashboard"))
+
+@main_bp.route("/settings", methods=["GET", "POST"])
+@login_required
+def settings():
+    if request.method == "POST":
+
+        theme = request.form.get("theme")
+        exam_attempt = request.form.get("exam_attempt")
+        daily_goal = request.form.get("daily_goal")
+
+        if theme in ["light", "dark"]:
+            current_user.theme = theme
+
+        if exam_attempt in ["Jan", "May", "Sep"]:
+            current_user.exam_attempt = exam_attempt
+
+        try:
+            current_user.daily_goal = float(daily_goal)
+        except (ValueError, TypeError):
+            flash("Invalid daily goal value.", "error")
+            return redirect(url_for("main.settings"))
+
+        db.session.commit()
+
+        flash("Settings updated successfully!", "success")
+
+        return redirect(url_for("main.settings"))
+
+    return render_template("main/settings.html")

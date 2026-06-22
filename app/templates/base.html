@@ -43,5 +43,5 @@
         </main>
     </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body>
+<body class="theme-{{ current_user.theme if current_user.is_authenticated else 'light' }}">
 </html>
