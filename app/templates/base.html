@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="theme-{{ current_user.theme if current_user.is_authenticated else 'light' }}">
     <div class="page">
         {% if current_user.is_authenticated %}
         <header class="topbar">
@@ -21,9 +21,16 @@
                 <a href="{{ url_for('main.dashboard') }}" class="nav-link">
                     Dashboard
                 </a>
+            
+                <a href="{{ url_for('main.settings') }}" class="nav-link">
+                    Settings
+                </a>
+            
                 <span class="user-greeting">Hi, {{ current_user.username }}</span>
-                <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost">Log Out</a>
-                
+            
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-ghost">
+                    Log Out
+                </a>
             </nav>
         </header>
         {% endif %}
@@ -43,5 +50,5 @@
         </main>
     </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-<body class="theme-{{ current_user.theme if current_user.is_authenticated else 'light' }}">
+</body>
 </html>
