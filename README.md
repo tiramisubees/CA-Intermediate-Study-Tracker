@@ -19,6 +19,21 @@ https://ca-intermediate-study-tracker.onrender.com
 - Dark Mode / Light Mode
 - Study Analytics & Trend Charts
 
+## Screenshots
+
+### Dashboard
+<img width="1841" height="853" alt="Dashboard1" src="https://github.com/user-attachments/assets/0f01b805-def2-4e1d-99bd-d3178bc74085" />
+
+<img width="1918" height="912" alt="Dashboard2" src="https://github.com/user-attachments/assets/75df4bcf-2f79-499e-bbac-86d467959c7e" />
+
+### Chapter_Progress
+<img width="1918" height="911" alt="Chapter_Progress" src="https://github.com/user-attachments/assets/03794261-0976-4792-b271-951e57630f42" />
+
+### Settings
+<img width="1918" height="911" alt="Settings_Light" src="https://github.com/user-attachments/assets/95afcb8e-0cb0-41c7-b9b7-897cfeaa1ddf" />
+
+<img width="1918" height="903" alt="Settings_Dark" src="https://github.com/user-attachments/assets/936a9904-6238-4f46-996b-598751986f6f" />
+
 ## Tech Stack
 
 - Python
