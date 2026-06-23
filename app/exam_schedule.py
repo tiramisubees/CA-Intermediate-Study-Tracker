@@ -1,7 +1,7 @@
 from datetime import date
 
 EXAM_SCHEDULES = {
-    "SEP26": {
+    "Sep": {
         "Accounting": date(2026, 9, 1),
         "Law": date(2026, 9, 3),
         "Taxation": date(2026, 9, 6),
